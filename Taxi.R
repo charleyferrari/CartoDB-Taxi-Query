@@ -23,6 +23,14 @@ subwaysdf <- data.frame(latitude = as.numeric(xmlSApply(xmltop, xmlAttrsNum, 1))
                         stopName = xmlSApply(xmltop, xmlAttrsStr, 3),
                         stopID = as.numeric(xmlSApply(xmltop, xmlAttrsNum, 5)))
 
+subwaysdf$stopName <- as.character(subwaysdf$stopName)
+
+subwaysdf <- rbind(subwaysdf, c(40.858882, -73.855375, "Pelham Pkwy 5", 429))
+
+subwaysdf$latitude <- as.numeric(subwaysdf$latitude)
+subwaysdf$longitude <- as.numeric(subwaysdf$longitude)
+subwaysdf$stopID <- as.numeric(subwaysdf$stopID)
+
 delta <- 0.0018
 
 subwaysdf$maxLat <- subwaysdf$latitude + delta
