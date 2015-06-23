@@ -48,6 +48,7 @@ any(subwaysdf$minLat < testlat & testlat < subwaysdf$maxLat &
 
 
 rides <- read.csv("trip201406.csv")
+
 rides$id <- 1:dim(rides)[1]
 
 #rides <- head(rides,1000)
@@ -86,8 +87,10 @@ names2014 <- paste("trip2014",months2014,".csv",sep="")
 names <- c(names2013,names2014)
 names
 
+rides <- read.csv("trip201308.csv")
 
-for(name in names){
+
+for(name in names[10]){
   rides <- rbind(rides,read.csv(name))
 }
 
@@ -127,4 +130,13 @@ ggmap(nyc) + geom_point(data=morningRidesSubway, aes(x=Pickup_longitude, y=Picku
 write.csv(morningRidesMerged, "gtdelta00018.csv")
 
 write.csv(subwaysdf, "subwaypoly.csv")
+
+library(RPostgreSQL)
+
+con <- dbConnect(RPostgreSQL::PostgreSQL(), user="postgres", password="is607",
+                 dbname="borocabs")
+
+con
+
+dbWriteTable(con, "rides", rides, row.names=TRUE)
 
